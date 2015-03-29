@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>Multiple Prototypes</title>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="stylesheet" type="text/css" href="/static/flagxor.css"/>
+<link href="/favicon.ico" rel="SHORTCUT ICON">
+<link href="http://flagxor.com/favicon.png"
+ rel="apple-touch-icon-precomposed">
+<meta name="viewport" content="width=600">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style"
+ content="black-translucent"/>
+
+</head>
+<body>
+
+<div id="wrapper">
+
+<div id="header">
+<h1>Multiple Prototypes
+<img align="right" width="40" height="40" src="/static/4spire.png"></img>
+</h1>
+</div>
+
+<div class="section">
+<h2>October 14, 2014</h2>
+<div class="article">
+<p>
+While early prototype based languages like Self
+and NewtonScript allowed multiple-prototypes, Javascript only allows
+a single prototype per object. I'll explore the trade-offs
+of each approach, rant vaguely.
+</p>
+
+<hr/>
+<p>
+Prototype based languages use a variation on object oriented programming.
+Rather than use an inheritance hierarchy of classes,
+prototype based languages use the notion that an object can express
+just what makes it unique and then reference one or more "prototypes".
+These prototypes are just other objects.
+Give or take issues around initialization and mutation,
+a conventional class hierarchy can be approximated by expressing classes
+as prototypes themselves in a hierarchy, referenced by each instance.
+However, part of the appeal of the approach is that it is ideally more
+flexible than a traditional static class hierarchy, allowing for
+possibilities like "dynamic inheritance".
+</p>
+<p>
+The original prototype based language (and probably its most pure form
+of expression) is the
+<a href="http://en.wikipedia.org/wiki/Self_(programming_language)">
+Self programming language</a>.
+Everything in Self, down to activation frames for parameter passing
+is a collection of key value pairs in which special keys (marked with
+an asterisk *) are prototypes, which can be assigned a precedence.
+All parent trees are traversed when deciding how to resolve a key,
+if two equal precedence resolutions are possible, an error is thrown.
+This allows for multiple inheritance, with semi-sane conflict resolution.
+</p>
+<p>
+<a href="http://en.wikipedia.org/wiki/NewtonScript">NewtonScript</a>,
+the programming language for the Apple Newton,
+was inspired by a desire to fit Self into the constraints of a 128KB
+device. Self like chaining was viewed as a way to compress the size
+of objects as well as a flexible implementation choice.
+One simplification made, was that rather than allowing an unlimited
+number of prototypes, two are allowed: _proto, _parent.
+_proto has a higher precedence than _parent. This allowed for _proto
+to fill a traditional inheritance role, and _parent to allow GUI widgets
+to propagate un-handled events up to their parent.
+Unlike Self, this would not allow direct simulation of multiple
+inheritance. Offhand it seems like the weaker notion of a set of
+standalone mix-ins might be possible, by creating a chain of mix-ins
+using _proto and _parent to build list chains, much like (car, cdr) to cons'es in Lisp. Strictly this could probably also approximate multiple
+inheritance generally, with the requirement that parent classes would
+have to have a strict precedence order.
+</p>
+<p>
+Javascript in turn allows only a single prototype for each object.
+An object o has o.__proto__ which its runtime prototype.
+This is in turn a reference to whatever was in some Function.prototype
+when new was called. Raw data objects {data: 1} are prototype-less.
+This has the advantage of simplicity, but requires copying of methods
+to simulate multiple inheritance.
+</p>
+<p>
+One appeal of the Javascript approach is that while it requires a decent
+amount of careful upfront copying, it can do most multiple inheritance like
+behavior that a static class hierarchy would allow. Dynamic inheritance
+is probably playing with fire.
+The unappealing downside is that the object prototype hierarchy doesn't
+reflect programmer intention, but rather the result of copying methods
+as needed.
+This is less of an issue in Javascript than it would be in Self, where
+objects are dynamically edited and the world pickled to a system image.
+</p>
+<p>
+The Self rules for resolving conflicts seem baroque
+and arbitrary. NewtonScript allows something as flexible, if you are
+willing to replace n-fanout with multiple 2-fanout branches.
+Javascript requires copying, but is the simplest.
+</p>
+<p>
+I wonder if anyone has done a prototyping language which handles
+the prototype by calling an un-handled message slot with messages
+to delegate. Yea old Internet says Squeak Smalltalk can do this
+via ObjectTracer, but that sounds like a slow debugging type interface
+not something you'd want every message to pass through.
+I would imagine Self's "implicit" delegation was probably motivated
+by the many performance optimizations it can do, pointing to the same
+conclusion.
+</p>
+
+</div>
+<i><a href="/topics#Programming Languages">Programming Languages</a></i>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-57431218-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<div id="footer">
+<div class="links">
+<a target="_parent" href="/">Home</a>
+<a target="_parent" href="/archive">Archive</a>
+<a target="_parent" href="/topics">Topics</a>
+<a target="_parent" href="http://forthsalon.appspot.com">Forth Haiku</a>
+</div>
+</div>
+
+
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'flagxor';
+    var disqus_identifier = 'multiple-prototypes';
+    var disqus_title = 'Multiple Prototypes';
+    var disqus_url = 'http://flagxor.com/multiple-prototypes';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</body>
+</html>
