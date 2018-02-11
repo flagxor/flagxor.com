@@ -1,29 +1,35 @@
-application: flagxor
-version: 1
 runtime: go
 api_version: go1
 
 handlers:
 - url: /test
   script: _go_app
+  secure: always
 - url: /
   static_files: static/index.html
   upload: static/index.html
+  secure: always
 - url: /favicon.ico
   static_files: static/4spire.ico
   upload: static/4spire.ico
+  secure: always
 - url: /favicon.png
   static_files: static/4spire.png
   upload: static/4spire.png
+  secure: always
 - url: /archive
   static_files: static/archive.html
   upload: static/archive.html
+  secure: always
 - url: /topics
   static_files: static/topics.html
   upload: static/topics.html
+  secure: always
 - url: /static/(.*)
   static_files: static/\1
   upload: static/(.*)
+  secure: always
 - url: /article/([^/]*)/?
   static_files: article/\1.html
   upload: article/(.*)
+  secure: always
