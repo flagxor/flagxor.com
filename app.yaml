@@ -33,3 +33,6 @@ handlers:
   static_files: article/\1.html
   upload: article/(.*)
   secure: always
+- url: /.well-known/acme-challenge/q3WyaHkiAJU5yvacC9A7qfEvLaGFWzVVqtFO_Te6Zwo
+  static_files: auth/challenge
+  upload: auth/challenge
