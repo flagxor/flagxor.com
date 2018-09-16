@@ -33,7 +33,7 @@ handlers:
   static_files: article/\1.html
   upload: article/(.*)
   secure: always
-- url: /.well-known/acme-challenge/ZleRY-MhDt75fIdOGbmfxaBH9cftArrWB6fdixzl2iQ
+- url: /.well-known/acme-challenge/-1tE9BQkq_PgN2bYayFxVgog5ugwBPblVUi-xqE3TqU
   static_files: auth/challenge
   upload: auth/challenge
 - url: /google0879d6ce2b857a28.html
