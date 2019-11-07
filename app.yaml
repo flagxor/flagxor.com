@@ -1,10 +1,8 @@
-runtime: go
-api_version: go1
+runtime: python27
+api_version: 1
+threadsafe: true
 
 handlers:
-- url: /test
-  script: _go_app
-  secure: always
 - url: /
   static_files: static/index.html
   upload: static/index.html
@@ -33,9 +31,18 @@ handlers:
   static_files: article/\1.html
   upload: article/(.*)
   secure: always
-- url: /.well-known/acme-challenge/-1tE9BQkq_PgN2bYayFxVgog5ugwBPblVUi-xqE3TqU
+- url: /.well-known/acme-challenge/M2fGXfvm7CWqMmicEkWmFHiOIChTYu2Yvi_tiyLLi3g
   static_files: auth/challenge
   upload: auth/challenge
 - url: /google0879d6ce2b857a28.html
   static_files: auth/google0879d6ce2b857a28.html
   upload: auth/google0879d6ce2b857a28.html
+- url: /test
+  script: flagxor.app
+  secure: always
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
