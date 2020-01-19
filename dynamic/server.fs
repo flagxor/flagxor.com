@@ -6,7 +6,7 @@ needs scgi.fs
 : respond-root
   ok-html
   r\ <!html>
-  r\ <h1>Testing Forth!</h1>
+  r\ <h1>Under Construction</h1>
 ;
 
 : respond-fail
