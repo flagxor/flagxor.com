@@ -9,15 +9,9 @@ needs scgi.fs
   r\ <h1>Under Construction</h1>
 ;
 
-: respond-fail
-  ok-html
-  r\ <!html>
-  r\ <h1>Derp</h1>
-;
-
 : respond
   s" DOCUMENT_URI" param s" /" str= if respond-root exit then
-  respond-fail
+  notfound
 ;
 
 ' respond 1888 scgi-run

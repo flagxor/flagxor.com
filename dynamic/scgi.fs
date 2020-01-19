@@ -63,6 +63,7 @@ set-current ( public )
 : rcr rcr ;
 : scgi-run ( handler port -- ) run ;
 
+: notfound s" Status: 404 Not Found" rtypeln rcr ;
 : status-ok s" Status: 200 OK" rtypeln ;
 : plain-text s" Content-Type: text/plain" rtypeln ;
 : html-text s" Content-Type: text/html" rtypeln ;
