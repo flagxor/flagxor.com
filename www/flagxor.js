@@ -30,7 +30,11 @@ function Post(url, callback) {
     var pos = 0;
     for (var i = 0; i < 256 * 32; i++) {
       for (var j = 0; j < 8; j++) {
-        img_data[pos++] = (b[i] & (1 << j)) ? 255 : 0;
+        if (b[i] & (1 << j)) {
+          img_data[pos++] = 255;
+        } else {
+          img_data[pos++] = 0;
+        }
         img_data[pos++] = 0;
         img_data[pos++] = 0;
         img_data[pos++] = 255;
