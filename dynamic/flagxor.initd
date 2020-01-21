@@ -11,7 +11,7 @@
 #  This script will start the Flagxor server.
 ### END INIT INFO
 
-DAEMON_PATH="/flagxor"
+DAEMON_PATH="/flagxor/flagxor.com/dynamic"
 DAEMON=/flagxor/flagxor.com/dynamic/flagxor.fs
 DAEMONOPTS=""
 DAEMONUSER=flagxor
