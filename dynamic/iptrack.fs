@@ -10,7 +10,7 @@ state-file 0< throw ( check that it opens )
 state-file data-size ftruncate throw
 0 data-size PROT_READ PROT_WRITE or
   MAP_SHARED state-file 0 mmap constant data
-: save data data-size MS_ASYNC msync drop awake ; save
+: save data data-size MS_ASYNC msync drop ; save
 
 : byte-clip ( n -- n ) 0 max 255 min ;
 : ip-parts ( -- a b )
@@ -21,7 +21,8 @@ state-file data-size ftruncate throw
 ;
 
 : or! ( n a -- ) dup -rot c@ or swap c! ;
-: mark-ip ip-parts 32 * swap 8 /mod 1 swap lshift >r + r> swap data + or! save ;
+: bitmap-pos ( x y -- m a ) 32 * swap 8 /mod swap 1 swap lshift -rot + data + ;
+: mark-ip ip-parts bitmap-pos or! save ;
 
 : respond-iptrack
   ok-octet
