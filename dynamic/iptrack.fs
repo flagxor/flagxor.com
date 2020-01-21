@@ -10,6 +10,7 @@ state-file 0< throw ( check that it opens )
 state-file data-size ftruncate throw
 0 data-size PROT_READ PROT_WRITE or
   MAP_SHARED state-file 0 mmap constant data
+: save data data-size MS_ASYNC msync drop awake ; save
 
 : byte-clip ( n -- n ) 0 max 255 min ;
 : ip-parts ( -- a b )
