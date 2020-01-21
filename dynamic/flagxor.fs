@@ -2,6 +2,7 @@
 
 needs posix.fs
 needs scgi.fs
+needs iptrack.fs
 
 : respond-root
   ok-html
@@ -11,6 +12,7 @@ needs scgi.fs
 
 : respond
   s" DOCUMENT_URI" param s" /" str= if respond-root exit then
+  s" DOCUMENT_URI" param s" /iptrack" str= if respond-iptrack exit then
   notfound
 ;
 
