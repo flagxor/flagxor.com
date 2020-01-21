@@ -13,9 +13,10 @@ state-file data-size ftruncate throw
 : save data data-size MS_ASYNC msync drop ; save
 
 : byte-clip ( n -- n ) 0 max 255 min ;
+: 1trim ( a n -- a n ) 1- 0 max swap 1+ swap ;
 : ip-parts ( -- a b )
   0 0 s" REMOTE_ADDR" param >number
-  swap 1+ swap 0 -rot 0 -rot >number 2drop
+  1trim 0 -rot 0 -rot >number 2drop
   drop swap drop
   byte-clip swap byte-clip swap
 ;
