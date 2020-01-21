@@ -20,7 +20,7 @@ state-file data-size ftruncate throw
 ;
 
 : or! ( n a -- ) dup -rot c@ or swap c! ;
-: mark-ip ip-parts 32 * swap 8 /mod 1 swap lshift >r + r> swap data + or! ;
+: mark-ip ip-parts 32 * swap 8 /mod 1 swap lshift >r + r> swap data + or! save ;
 
 : respond-iptrack
   ok-octet
