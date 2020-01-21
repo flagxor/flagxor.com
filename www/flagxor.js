@@ -24,7 +24,7 @@ function Post(url, callback) {
     }
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 256, 256);
-    var b = new Uint8Array(data.buffer);
+    var b = new Uint8Array(data);
     var img = ctx.createImageData(256, 256);
     var img_data = img.data;
     var pos = 0;
