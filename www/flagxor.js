@@ -23,7 +23,7 @@ function Post(url, callback) {
       return;
     }
     var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, w, h);
+    ctx.clearRect(0, 0, 256, 256);
     var b = new Uint8Array(data.buffer);
     var img = ctx.createImageData(256, 256);
     var img_data = img.data;
@@ -36,6 +36,6 @@ function Post(url, callback) {
         img_data[pos++] = 255;
       }
     }
-    ctx.putImage(img, 0, 0);
+    ctx.putImageData(img, 0, 0);
   });
 })();
