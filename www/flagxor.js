@@ -45,9 +45,9 @@ function Post(url, callback) {
       }
     }
     ctx.filter = 'blur(10px);';
-    ctx.putImageData(img, 0, 0);
+    ctx.drawImage(img, 0, 0);
     ctx.filter = 'grayscale(); blur(2px);';
-    ctx.putImageData(img, 0, 0);
+    ctx.drawImage(img, 0, 0);
     ctx.filter = '';
   });
 })();
