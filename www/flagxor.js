@@ -39,7 +39,7 @@ function Post(url, callback) {
           img_data[pos++] = 0;
           img_data[pos++] = 0;
           img_data[pos++] = 0;
-          img_data[pos++] = 0;
+          img_data[pos++] = 255;
         }
       }
     }
