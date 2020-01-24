@@ -32,6 +32,9 @@ function Post(url, callback) {
         if (b[i] & (1 << j)) {
           trail = 10;
         }
+        if (trail > 0) {
+          --trail;
+        }
         img_data[pos++] = Math.floor(255 * trail / 10);
         img_data[pos++] = Math.floor(255 * trail / 20);
         img_data[pos++] = Math.floor(255 * trail / 30);
