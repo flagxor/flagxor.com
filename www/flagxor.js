@@ -34,12 +34,12 @@ function Post(url, callback) {
           img_data[pos++] = 255;
           img_data[pos++] = 192;
           img_data[pos++] = 0;
-          img_data[pos++] = 0;
+          img_data[pos++] = 255;
         } else {
           img_data[pos++] = 0;
           img_data[pos++] = 0;
           img_data[pos++] = 0;
-          img_data[pos++] = 255;
+          img_data[pos++] = 0;
         }
       }
     }
