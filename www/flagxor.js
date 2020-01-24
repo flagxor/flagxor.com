@@ -18,7 +18,6 @@ function Post(url, callback) {
 
 (function() {
   var canvas = document.getElementById('iptrack');
-  var canvas_hidden = document.getElementById('iptrack_hidden');
   Post('/dynamic/iptrack', function(data) {
     if (data === null) {
       return;
@@ -28,30 +27,38 @@ function Post(url, callback) {
     var img = ctx.createImageData(256, 256);
     var img_data = img.data;
     var pos = 0;
-    for (var i = 0; i < 256 * 32; i++) {
-      for (var j = 0; j < 8; j++) {
-        if (b[i] & (1 << j)) {
-          img_data[pos++] = 255;
-          img_data[pos++] = 192;
-          img_data[pos++] = 0;
-          img_data[pos++] = 255;
-        } else {
-          img_data[pos++] = 0;
-          img_data[pos++] = 0;
-          img_data[pos++] = 0;
-          img_data[pos++] = 0;
+    function sample(x, y) {
+      if (x < 0 || x >= 256 || y < 0 || y >= 256) {
+        return 0;
+      }
+      var i = y * 32 + (x >> 3);
+      var j = x & 7;
+      return (b[i] & (1 << j)) != 0;
+    }
+    for (var i = 0; i < 256; i++) {
+      for (var j = 0; j < 256; j++) {
+        var a = 0;
+        var b = 0;
+        for (var x = -10; x <= 10; x++) {
+          for (var y = -10; y <= 10; y++) {
+            if (sample(i + x, j + y)) {
+              if (x * x + y * y < 10 * 10) {
+                a++;
+              }
+              if (x * x + y * y < 3 * 3) {
+                b++;
+              }
+            }
+          }
         }
+        a = Math.floor(a * 255 / (21 * 21));
+        b = Math.floor(b * 255 / (7 * 7));
+        img_data[pos++] = Math.min(a, b);
+        img_data[pos++] = Math.min(a / 2, b);
+        img_data[pos++] = b;
+        img_data[pos++] = 255;
       }
     }
     ctx.putImageData(img, 0, 0);
-
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 256, 256);
-    ctx.filter = 'blur(50px); brightness(5000%);';
-    ctx.drawImage(canvas_hidden, 0, 0);
-    ctx.filter = 'grayscale(100%); blur(2px); brightness(400%)';
-    ctx.drawImage(canvas_hidden, 0, 0);
-    ctx.filter = '';
   });
 })();
