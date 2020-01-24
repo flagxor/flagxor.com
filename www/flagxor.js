@@ -48,9 +48,9 @@ function Post(url, callback) {
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, 256, 256);
-    ctx.filter = 'blur(10px); brightness(1000%);';
+    ctx.filter = 'blur(50px); brightness(5000%);';
     ctx.drawImage(canvas_hidden, 0, 0);
-    ctx.filter = 'grayscale(); blur(2px);';
+    ctx.filter = 'grayscale(100%); blur(2px); brightness(400%)';
     ctx.drawImage(canvas_hidden, 0, 0);
     ctx.filter = '';
   });
