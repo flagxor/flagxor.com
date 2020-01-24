@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>less is more</title>
+<title>Generating Spirals</title>
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <link rel="stylesheet" type="text/css" href="/static/flagxor.css"/>
 <link href="/favicon.ico" rel="SHORTCUT ICON">
@@ -18,62 +18,35 @@
 <div id="wrapper">
 
 <div id="header">
-<h1>less is more
+<h1>Generating Spirals
 <img align="right" width="40" height="40" src="/static/4spire.png"></img>
 </h1>
 </div>
 
 <div class="section">
-<h2>June 20, 2011</h2>
+<h2>April 22, 2011</h2>
 <div class="article">
-<p>
-A number of recently added standard Forth words have been dropped
-from the core vocabulary:
-<pre>! @ IF ELSE THEN VARIABLE ALLOT HERE.</pre>
-Surprisingly few haikus had to be updated to accommodate,
-suggesting not much has been lost.
-</p>
+<p>It turns out a spiral isn't too bad to implement.</p>
 
 <hr/>
 <p>
-I recently added a number of standard Forth words to the Haiku Forth
-core word list. Theoretically these words might have allowed interesting
-behavior. In practice, only 4 haikus (two of which were derived works)
-required updating. In both cases, the result was smaller.
+The key trick with a spiral is to combine the distance from the center
+with the rotation around the center (obtained with atan2).
+Once this is obtained, taking the sine can be used to oscillate
+along a path that grows outward in a spiral.
 </p>
 <p>
-The exclusive user of IF, THEN were the two mandelbrot
-haikus.
-They each contained the sequence:
-<pre>dup 0 &lt; if drop 0 then</pre>
-This sequence is easily replaced with:
-<pre>dup 0 &gt;= *</pre>
-And if fact, I now realize, even more tersely:
-<pre>0 max</pre>
-</p>
-<p>
-The only user of VARIABLE, @, ! were the two variations of the red ball.
-At a small performance penalty, this:
-<pre>variable xx x 0.5 - xx ! ... xx @</pre>
-was replaced with:
-<pre>: xx x 0.5 - ; ... xx</pre>
-Fewer total words, and less 'line noise'.
-</p>
-<p>
-Despite my 'ambitions', the words ELSE, HERE, ALLOT were never used.
-They were also dropped.
-</p>
-<p>
-As a result of dropping these words, the effort involved in adding
-an optimize pass which eliminates the internal use of the dstack + rstack
-arrays in favor of temporary variables was greatly reduced.
-This optimization noticeably speeds up Android performance,
-and is a hearty step towards being able to add WebGL support,
-and thereby animation via a 't' word.
+<a href="http://forthsalon.appspot.com/haiku-view/ahBzfmZvcnRoc2Fsb24taHJkcgsLEgVIYWlrdRgEDA">Example</a>
+<pre>
+: square dup * ;
+: dist square swap square + sqrt ;
+: 2dup over over ;
+: spiral 0.5 - swap 0.5 - 2dup dist push atan2 0.01 * pop + 100 * sin ;
+x y spiral x y spiral x y spiral
+</pre>
 </p>
 
 </div>
-<i><a href="/topics#Forth Haiku">Forth Haiku</a></i>
 </div>
 
 <script>
@@ -87,8 +60,6 @@ and thereby animation via a 't' word.
 <div id="footer">
 <div class="links">
 <a target="_parent" href="/">Home</a>
-<a target="_parent" href="/archive">Archive</a>
-<a target="_parent" href="/topics">Topics</a>
 <a target="_parent" href="http://forthsalon.appspot.com">Forth Haiku</a>
 </div>
 </div>
@@ -100,9 +71,9 @@ and thereby animation via a 't' word.
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = 'flagxor';
-    var disqus_identifier = 'less-is-more';
-    var disqus_title = 'less is more';
-    var disqus_url = 'http://flagxor.com/less-is-more';
+    var disqus_identifier = 'generating-spirals';
+    var disqus_title = 'Generating Spirals';
+    var disqus_url = 'http://flagxor.com/generating-spirals';
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
