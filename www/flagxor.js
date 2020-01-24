@@ -22,7 +22,7 @@ function Post(url, callback) {
     if (data === null) {
       return;
     }
-    var ctx = canvas_hidden.getContext('2d');
+    var ctx = canvas.getContext('2d');
     var b = new Uint8Array(data);
     var img = ctx.createImageData(256, 256);
     var img_data = img.data;
