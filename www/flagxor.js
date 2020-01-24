@@ -32,14 +32,18 @@ function Post(url, callback) {
       for (var j = 0; j < 8; j++) {
         if (b[i] & (1 << j)) {
           img_data[pos++] = 255;
+          img_data[pos++] = 255;
+          img_data[pos++] = 255;
+          img_data[pos++] = 255;
         } else {
           img_data[pos++] = 0;
+          img_data[pos++] = 0;
+          img_data[pos++] = 0;
+          img_data[pos++] = 0;
         }
-        img_data[pos++] = 0;
-        img_data[pos++] = 0;
-        img_data[pos++] = 255;
       }
     }
-    ctx.putImageData(img, 0, 0);
+    ctx.filter = 'blur(10)';
+    ctx.putImageData(img, i, j);
   });
 })();
