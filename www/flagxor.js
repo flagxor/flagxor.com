@@ -43,7 +43,7 @@ function Post(url, callback) {
         }
       }
     }
-    ctx.putImageDatae(img, 0, 0);
+    ctx.putImageData(img, 0, 0);
 
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000';
