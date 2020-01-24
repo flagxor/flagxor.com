@@ -43,6 +43,8 @@ function Post(url, callback) {
         }
       }
     }
+    ctx.putImageDatae(img, 0, 0);
+
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, 256, 256);
