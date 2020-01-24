@@ -27,6 +27,7 @@ function Post(url, callback) {
     var img = ctx.createImageData(256, 256);
     var img_data = img.data;
     var pos = 0;
+    var trail = 0;
     for (var i = 0; i < 256; i++) {
       for (var j = 0; j < 256; j++) {
         if (b[i] & (1 << j)) {
