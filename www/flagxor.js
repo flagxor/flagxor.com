@@ -51,6 +51,8 @@ function Post(url, callback) {
             }
           }
         }
+        if (a) a = 255;
+        if (b) b = 255;
         a = Math.floor(a * 255 / (21 * 21));
         b = Math.floor(b * 255 / (7 * 7));
         img_data[pos++] = Math.min(a, b);
