@@ -77,7 +77,7 @@ function Set(i, val) {
   val = val | 0;
   if (val < 0) { val = 0; }
   if (val > 255) { val = 255; }
-  Talk((i * 256 + val) * 2 + 1), function(data) {});
+  Talk((i * 256 + val) * 2 + 1, function(data) {});
 }
 
 function Move(x, y) {
