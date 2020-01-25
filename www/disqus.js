@@ -18,5 +18,5 @@ var disqus_config = {};
   s.async = true;
   s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
   s.setAttribute('data-timestamp', +new Date());
-  (document.head || document.body).appendChild(dsq);
+  (document.head || document.body).appendChild(s);
 })();
