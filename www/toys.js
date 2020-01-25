@@ -59,7 +59,9 @@ function Draw() {
   ctx.font = '20px Helvetica, Arial, san-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('Forth', board_state[4], board_state[5]);
+  var x = board_size[4] & 0xf;
+  var y = board_size[4] >> 4;
+  ctx.fillText('Forth', x * 16 + 8, y * 16 + 8);
 }
 
 function Talk(arg, callback) {
@@ -72,19 +74,26 @@ function Talk(arg, callback) {
   });
 }
 
-function Set(i, val, callback) {
-  i -= 4;
+function ByteSize(val) {
   val = val | 0;
   if (val < 0) { val = 0; }
   if (val > 255) { val = 255; }
+  return val;
+}
+
+function Set(i, val, callback) {
+  i -= 4;
+  val = ByteSize(val);
   Talk((i * 256 + val) * 2 + 1, callback);
 }
 
 function Move(x, y) {
-  Set(4, x, function() {
-    Set(5, y, function() {
-      Draw();
-    });
+  x = ByteSize(x);
+  y = ByteSize(y);
+  x = x >> 4;
+  y = y >> 4;
+  Set(4, x + 16 * y, function() {
+    Draw();
   });
 }
 
@@ -95,6 +104,7 @@ function Board() {
     code = d[0];
   }
   Talk((code * 2), function() {
+    Draw();
     Board();
   });
 }
