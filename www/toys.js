@@ -59,8 +59,8 @@ function Draw() {
   ctx.font = '20px Helvetica, Arial, san-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  var x = board_size[4] & 0xf;
-  var y = board_size[4] >> 4;
+  var x = board_state[4] & 0xf;
+  var y = board_state[4] >> 4;
   ctx.fillText('Forth', x * 16 + 8, y * 16 + 8);
 }
 
