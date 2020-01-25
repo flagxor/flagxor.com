@@ -20,7 +20,7 @@ state-file data-size ftruncate throw
 : stall ( n -- ) 2/ data l@ skip1 = if await then ;
 
 : interact ( n -- )
-  2/ dup 255 and swap 8 rshift 255 and data + c!
+  2/ dup 255 and swap 8 rshift 255 and 4 + data + c!
   advance save awake
 ;
 

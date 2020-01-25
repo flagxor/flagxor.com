@@ -55,6 +55,16 @@ function Draw() {
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, 256, 256);
+  ctx.fillStyle = '#ff0';
+  ctx.font = '20px Helvetica, Arial, san-serif';
+  ctx.fillText(board_state[4], board_state[5], 'Forth');
+}
+
+function Move(x, y) {
+  x = Math.max(0, Math.min(255, x | 0));
+  y = Math.max(0, Math.min(255, y | 0));
+  Post('/dynamic/boardtoy?' + ((0 * 256 + x) * 2 + 1), function(data) {});
+  Post('/dynamic/boardtoy?' + ((1 * 256 + y) * 2 + 1), function(data) {});
 }
 
 function Board() {
@@ -76,6 +86,10 @@ function Board() {
 function Main() {
   IpMap();
   Board();
+  var canvas = document.getElementById('board');
+  canvas.onmousedown = function(e) {
+    Move(e.clientX, e.clientY);
+  };
 }
 
 Main();
