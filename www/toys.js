@@ -16,7 +16,7 @@ function Post(url, callback) {
   r.send();
 }
 
-(function() {
+function IpMap() {
   var canvas = document.getElementById('ipmap');
   Post('/dynamic/iptrack', function(data) {
     if (data === null) {
@@ -44,4 +44,34 @@ function Post(url, callback) {
     }
     ctx.putImageData(img, 0, 0);
   });
-})();
+}
+
+var board_state;
+
+function Draw() {
+  var canvas = document.getElementById('board');
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, 256, 256);
+}
+
+function Board() {
+  var code = 0;
+  if (board_state) {
+    var d = new Uint32Array(board_state);
+    code = d[0];
+  }
+  Post('/dynamic/boardtoy?' + (code * 2), function(data) {
+    if (data === null) {
+      return;
+    }
+    board_state = new Uint8Array(data);
+    Draw();
+    Board();
+  });
+}
+
+function Main() {
+  IpMap();
+  Board();
+}
