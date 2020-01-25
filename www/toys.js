@@ -100,7 +100,7 @@ function Move(x, y) {
 function Board() {
   var code = 0;
   if (board_state) {
-    var d = new Uint32Array(board_state);
+    var d = new Uint32Array(board_state.buffer);
     code = d[0];
   }
   Talk((code * 2), function() {
