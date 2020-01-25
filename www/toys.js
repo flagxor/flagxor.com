@@ -62,12 +62,22 @@ function Draw() {
   ctx.fillText(board_state[4], board_state[5], 'Forth');
 }
 
+function Talk(arg, callback) {
+  Post('/dynamic/boardtoy?' + arg, function(data) {
+    if (data === null) {
+      return;
+    }
+    board_state = new Uint8Array(data);
+    Draw();
+  });
+}
+
 function Set(i, val) {
   i -= 4;
   val = val | 0;
   if (val < 0) { val = 0; }
   if (val > 255) { val = 255; }
-  Post('/dynamic/boardtoy?' + ((i * 256 + val) * 2 + 1), function(data) {});
+  Talk((i * 256 + val) * 2 + 1), function(data) {});
 }
 
 function Move(x, y) {
@@ -81,12 +91,7 @@ function Board() {
     var d = new Uint32Array(board_state);
     code = d[0];
   }
-  Post('/dynamic/boardtoy?' + (code * 2), function(data) {
-    if (data === null) {
-      return;
-    }
-    board_state = new Uint8Array(data);
-    Draw();
+  Talk((code * 2), function() {
     Board();
   });
 }
