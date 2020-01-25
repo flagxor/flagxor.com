@@ -71,30 +71,33 @@ function SetupPage() {
   // Build wrapped page.
   var wrapper = document.createElement('div');
   wrapper.id = 'wrapper';
-  // Setup title.
-  var header = AddDiv(wrapper, 'header', null);
-  var img = AddImg(header, 40, 40, 'https://www.flagxor.com/static/4spire.png');
-  img.align = 'right';
-  var title = document.getElementsByTagName('h1')[0];
-  document.title = title.innerText;
-  title.parentElement.removeChild(title);
-  header.appendChild(title);
-  // Gather up article.
-  var section = AddDiv(wrapper, null, 'section');
-  var article = AddDiv(section, null, 'article');
-  while (document.body.firstChild) {
-    var e = document.body.firstChild;
-    e.parentElement.removeChild(e);
-    article.appendChild(e);
-  }
   document.body.appendChild(wrapper);
-  // Add footer.
-  var footer = AddDiv(wrapper, 'footer', null);
-  var links = AddDiv(footer, null, 'links');
-  AddAnchor(links, '_parent', '/', 'Home');
-  AddAnchor(links, '_parent', 'https://www.flagxor.com/', 'Forth Haiku');
-  AddDiv(document.body, 'disqus_thread', null);
-  AddScript(document.body, 'https://www.flagxor.com/disqus.js');
+  window.onload = function() {
+    // Setup title.
+    var header = AddDiv(wrapper, 'header', null);
+    var img = AddImg(header, 40, 40,
+        'https://www.flagxor.com/static/4spire.png');
+    img.align = 'right';
+    var title = document.getElementsByTagName('h1')[0];
+    document.title = title.innerText;
+    title.parentElement.removeChild(title);
+    header.appendChild(title);
+    // Gather up article.
+    var section = AddDiv(wrapper, null, 'section');
+    var article = AddDiv(section, null, 'article');
+    var main = document.getElementById('main');
+    article.appendChild(main);
+    main.style.display = '';
+    // Add footer.
+    var footer = AddDiv(wrapper, 'footer', null);
+    var links = AddDiv(footer, null, 'links');
+    AddAnchor(links, '_parent', '/', 'Home');
+    AddAnchor(links, '_parent', 'https://www.flagxor.com/', 'Forth Haiku');
+    AddDiv(document.body, 'disqus_thread', null);
+    AddScript(document.body, 'https://www.flagxor.com/disqus.js');
+    // Drop loading.
+    document.body.removeChild(document.body.firstChild);
+  }
 }
 
 SetupPage();
