@@ -14,10 +14,10 @@ state-file data-size ftruncate throw
   MAP_SHARED state-file 0 mmap constant data
 : save data data-size MS_ASYNC msync drop ; save
 
-: skip1 ( n -- n ) dup 0= if drop 1 then ;
-: stall ( n -- ) 2/ data l@ skip1 = if await then ;
-
 : advance   data l@ 1+ data l! ;
+
+: skip1 ( n -- n ) dup 0= if drop 1 advance save awake then ;
+: stall ( n -- ) 2/ data l@ skip1 = if await then ;
 
 : interact ( n -- )
   2/ dup 255 and swap 8 rshift 255 and data + c!
@@ -35,9 +35,11 @@ state-file data-size ftruncate throw
   data board-size rtype
 ;
 
+(
 : clock-tick begin 15000 ms awake again ;
 : start-clock fork 0= if clock-tick bye then ;
 start-clock
+)
 
 set-current ( public )
 
