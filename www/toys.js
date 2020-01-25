@@ -68,7 +68,7 @@ function Talk(arg, callback) {
       return;
     }
     board_state = new Uint8Array(data);
-    Draw();
+    callback();
   });
 }
 
@@ -82,7 +82,9 @@ function Set(i, val, callback) {
 
 function Move(x, y) {
   Set(4, x, function() {
-    Set(5, y);
+    Set(5, y, function() {
+      Draw();
+    });
   });
 }
 
