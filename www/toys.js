@@ -57,14 +57,22 @@ function Draw() {
   ctx.fillRect(0, 0, 256, 256);
   ctx.fillStyle = '#ff0';
   ctx.font = '20px Helvetica, Arial, san-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
   ctx.fillText(board_state[4], board_state[5], 'Forth');
 }
 
+function Set(i, val) {
+  i -= 4;
+  val = val | 0;
+  if (val < 0) { val = 0; }
+  if (val > 255) { val = 255; }
+  Post('/dynamic/boardtoy?' + ((i * 256 + val) * 2 + 1), function(data) {});
+}
+
 function Move(x, y) {
-  x = Math.max(0, Math.min(255, x | 0));
-  y = Math.max(0, Math.min(255, y | 0));
-  Post('/dynamic/boardtoy?' + ((0 * 256 + x) * 2 + 1), function(data) {});
-  Post('/dynamic/boardtoy?' + ((1 * 256 + y) * 2 + 1), function(data) {});
+  Set(4, x);
+  Set(5, y);
 }
 
 function Board() {
