@@ -72,17 +72,18 @@ function Talk(arg, callback) {
   });
 }
 
-function Set(i, val) {
+function Set(i, val, callback) {
   i -= 4;
   val = val | 0;
   if (val < 0) { val = 0; }
   if (val > 255) { val = 255; }
-  Talk((i * 256 + val) * 2 + 1, function(data) {});
+  Talk((i * 256 + val) * 2 + 1, callback);
 }
 
 function Move(x, y) {
-  Set(4, x);
-  Set(5, y);
+  Set(4, x, function() {
+    Set(5, y);
+  });
 }
 
 function Board() {
