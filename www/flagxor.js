@@ -97,7 +97,8 @@ function SetupPage() {
     var footer = AddDiv(wrapper, 'footer', null);
     var links = AddDiv(footer, null, 'links');
     AddAnchor(links, '_parent', '/', 'Home');
-    AddAnchor(links, '_parent', 'https://www.flagxor.com/', 'Forth Haiku');
+    AddAnchor(links, '_parent',
+        'https://forthsalon.appspot.com/', 'Forth Haiku');
     AddDiv(document.body, 'disqus_thread', null);
     AddScript(document.body, 'https://www.flagxor.com/disqus.js');
     // Drop loading.
