@@ -101,7 +101,7 @@ function Main() {
   Board();
   var canvas = document.getElementById('board');
   canvas.onmousedown = function(e) {
-    Move(e.clientX, e.clientY);
+    Move(e.offsetX, e.offsetY);
   };
 }
 
