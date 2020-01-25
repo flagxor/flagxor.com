@@ -91,7 +91,7 @@ function SetupPage() {
   var links = AddDiv(footer, null, 'links');
   AddAnchor(links, '_parent', '/', 'Home');
   AddAnchor(links, '_parent', 'https://www.flagxor.com/', 'Forth Haiku');
-  AddScript(document.body, 'disqus_thread', null);
+  AddDiv(document.body, 'disqus_thread', null);
   AddScript(document.body, '../../disqus.js');
 }
 
