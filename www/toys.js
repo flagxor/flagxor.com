@@ -116,9 +116,6 @@ function Main() {
   canvas.onmousedown = function(e) {
     Move(e.offsetX, e.offsetY);
   };
-  canvas.ontouchstart = function(e) {
-    Move(e.touches[0].offsetX, e.touches[0].offsetY);
-  };
 }
 
 Main();
