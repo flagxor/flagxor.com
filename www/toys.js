@@ -1,5 +1,7 @@
 'use strict';
 
+(function() {
+
 function Post(url, callback) {
   var r = new XMLHttpRequest();
   r.responseType = 'arraybuffer';
@@ -75,3 +77,7 @@ function Main() {
   IpMap();
   Board();
 }
+
+Main();
+
+})();
