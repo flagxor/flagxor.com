@@ -68,10 +68,16 @@ function SetupPage() {
   AddMeta(head, 'apple-mobile-web-app-capable', 'yes');
   AddMeta(head, 'apple-mobile-web-app-status-bar-style', 'black-translucent');
   AddMeta(head, 'X-UA-Compatible', 'chrome=1');
+  // Hide main.
+  var main = document.getElementById('main');
+  main.style.display = 'none';
+  // Add loading.
+  document.body.style.color = '#fff';
+  document.body.style.backgroundColor = '#000';
+  var loading = document.createTextNode('Loading...');
+  document.body.appendChild(loading);
   // Build wrapped page.
-  var wrapper = document.createElement('div');
-  wrapper.id = 'wrapper';
-  document.body.appendChild(wrapper);
+  var wrapper = AddDiv(document.body, 'wrapper', null);
   window.onload = function() {
     // Setup title.
     var header = AddDiv(wrapper, 'header', null);
@@ -85,7 +91,6 @@ function SetupPage() {
     // Gather up article.
     var section = AddDiv(wrapper, null, 'section');
     var article = AddDiv(section, null, 'article');
-    var main = document.getElementById('main');
     article.appendChild(main);
     main.style.display = '';
     // Add footer.
@@ -96,7 +101,7 @@ function SetupPage() {
     AddDiv(document.body, 'disqus_thread', null);
     AddScript(document.body, 'https://www.flagxor.com/disqus.js');
     // Drop loading.
-    document.body.removeChild(document.body.firstChild);
+    document.body.removeChild(loading);
   }
 }
 
