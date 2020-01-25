@@ -55,11 +55,11 @@ function Draw() {
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, 256, 256);
-  ctx.fillStyle = '#ff0';
+  ctx.fillStyle = '#0cf';
   ctx.font = '20px Helvetica, Arial, san-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(board_state[4], board_state[5], 'Forth');
+  ctx.fillText('Forth', board_state[4], board_state[5]);
 }
 
 function Talk(arg, callback) {
