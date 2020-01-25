@@ -10,9 +10,9 @@ function AddMeta(head, name, content) {
 
 function AddLink(head, rel, type, href) {
   var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = '../../static/flagxor.css';
+  link.rel = rel;
+  link.type = type;
+  link.href = href;
   head.appendChild(link);
   return link;
 }
@@ -57,10 +57,12 @@ function AddImg(e, width, height, src) {
 function SetupPage() {
   // Setup head.
   var head = document.getElementsByTagName('HEAD')[0];
-  AddLink(head, 'stylesheet', 'text/css', '../../static/flagxor.css');
-  AddLink(head, 'SHORTCUT ICON', 'image/x-icon', '/favicon.ico');
+  AddLink(head, 'stylesheet', 'text/css',
+      'https://www.flagxor.com/static/flagxor.css');
+  AddLink(head, 'SHORTCUT ICON', 'image/x-icon',
+      'https://www.flagxor.com/favicon.ico');
   AddLink(head, 'apple-touch-icon-precomposed', 'image/png',
-      'https://flagxor.com/favicon.png');
+      'https://www.flagxor.com/favicon.png');
   AddMeta(head, 'viewport', 'width=600');
   AddMeta(head, 'viewport', 'initial-scale=1.0');
   AddMeta(head, 'apple-mobile-web-app-capable', 'yes');
@@ -71,7 +73,7 @@ function SetupPage() {
   wrapper.id = 'wrapper';
   // Setup title.
   var header = AddDiv(wrapper, 'header', null);
-  var img = AddImg(header, 40, 40, '../../static/4spire.png');
+  var img = AddImg(header, 40, 40, 'https://www.flagxor.com/static/4spire.png');
   img.align = 'right';
   var title = document.getElementsByTagName('h1')[0];
   document.title = title.innerText;
@@ -92,7 +94,7 @@ function SetupPage() {
   AddAnchor(links, '_parent', '/', 'Home');
   AddAnchor(links, '_parent', 'https://www.flagxor.com/', 'Forth Haiku');
   AddDiv(document.body, 'disqus_thread', null);
-  AddScript(document.body, '../../disqus.js');
+  AddScript(document.body, 'https://www.flagxor.com/disqus.js');
 }
 
 SetupPage();
