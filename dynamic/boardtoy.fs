@@ -14,7 +14,7 @@ state-file data-size ftruncate throw
   MAP_SHARED state-file 0 mmap constant data
 : save data data-size MS_ASYNC msync drop ; save
 
-: stall ( n -- ) 2/ data l@ = if await then ;
+: stall ( n -- ) 2/ data l@ dup 0= if drop 1 then = if await then ;
 
 : advance   data l@ 1+ data l! ;
 
