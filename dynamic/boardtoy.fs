@@ -35,11 +35,9 @@ state-file data-size ftruncate throw
   data board-size rtype
 ;
 
-(
 : clock-tick begin 15000 ms awake again ;
 : start-clock fork 0= if clock-tick bye then ;
 start-clock
-)
 
 set-current ( public )
 

@@ -4,7 +4,7 @@ needs posix.fs
 
 get-current vocabulary scgi also scgi definitions ( private )
 
-5 constant workers
+20 constant workers
 
 ( Check for stack leaks )
 : gnd depth throw ;
