@@ -11,6 +11,10 @@ var disqus_config = function() {
 };
 
 (function() {
+  var parts = document.location.href.split('/');
+  if (parts[parts.length - 3] != 'article') {
+    return;
+  }
   var s = document.createElement('script');
   s.type = 'text/javascript';
   s.async = true;
