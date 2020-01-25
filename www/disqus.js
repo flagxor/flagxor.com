@@ -7,6 +7,7 @@ var disqus_config = {};
   var title = document.getElementsByTagName('h1')[0];
   var parts = document.location.href.split('/');
 
+  disqus_config.page = {};
   disqus_config.page.identifier = parts[parts.length - 2];
   disqus_config.page.title = title.innerText;
   disqus_config.page.url = 'https://www.flagxor.com/article/' +
