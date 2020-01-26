@@ -55,6 +55,10 @@ variable retcode
    setup workers 0 do fork 0= if handle-all unloop exit then loop
    workers 0 do -1 retcode 0 waitpid drop gnd loop bye ;
 
+( Ignore some signals )
+SIGPIPE SIG_IGN signal drop
+SIGCHLD SIG_IGN signal drop
+
 set-current ( public )
 
 : param param ;
