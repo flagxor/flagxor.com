@@ -4,10 +4,10 @@ needs posix.fs
 
 get-current vocabulary scgi also scgi definitions ( private )
 
-5 constant workers
+20 constant workers
 
 ( Check for stack leaks )
-: ground depth throw ;
+: gnd depth throw ;
 ( Parsing utils )
 : drop-trailing   source nip >in ! ;
 : eat-trailing ( -- a n ) source >in @ - swap >in @ + swap drop-trailing ;
@@ -44,7 +44,7 @@ variable handler  variable incoming
 : read-request inbuf-clear request @ inbuf inbuf-max read inbuf# ! ;
 : handle-request read-request handler @ execute close-request ;
 : handle-one incoming @ sockaccept request ! handle-request ;
-: handle-all begin handle-one ground again ;
+: handle-all begin handle-one gnd again ;
 : setup ( handler port -- )
    bind incoming !
    handler !
@@ -53,7 +53,11 @@ variable handler  variable incoming
 variable retcode
 : run ( handler port -- )
    setup workers 0 do fork 0= if handle-all unloop exit then loop
-   workers 0 do -1 retcode 0 waitpid drop ground loop bye ;
+   workers 0 do -1 retcode 0 waitpid drop gnd loop bye ;
+
+( Ignore some signals )
+SIGPIPE SIG_IGN signal drop
+SIGCHLD SIG_IGN signal drop
 
 set-current ( public )
 
