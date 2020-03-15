@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<body><div id="main">
+<script src="../../flagxor.js"></script>
+
+<h1>Bread</h1>
+<h2>March 15, 2020</h2>
+
+<p>
+Making french bread seems to involve some simple ratios.
+Unfortunately, without fail, I'll regularly mislay what I did last time.
+To avoid that, I'm putting the current formula online.
+</p>
+
+<hr/>
+
+<p>
+Flour: <input id="flour" name="flour" type="text" size="5"
+        pattern="[0-9.]+" value="0"></input> cups<br/>
+Water: <input id="water" name="water" type="text" size="5"
+        pattern="[0-9.]+" value="0"></input> cups<br/>
+Yeast: <input id="yeast" name="yeast" type="text" size="5"
+        pattern="[0-9.]+" value="0"></input> tsp<br/>
+Salt: <input id="salt" name="salt" type="text" size="5"
+       pattern="[0-9.]+" value="0"></input> tsp<br/>
+Dash of sugar<br/>
+Bake for ~30 minutes at 400 degrees.<br/>
+</p>
+
+<script>
+(function() {
+
+var flour = document.getElementById('flour');
+var water = document.getElementById('water');
+var yeast = document.getElementById('yeast');
+var salt = document.getElementById('salt');
+
+const WATER_TO_FLOUR = 3 / 5;
+const FLOUR_GRAMS_PER_CUP = 120;
+const WATER_GRAMS_PER_CUP = 236.59;
+const SALT_GRAMS_PER_TSP = 5.69;
+const SALT_TO_FLOUR = 0.02;
+const YEAST_TSP_PER_CUP_FLOUR = 2.25 / 4;
+const WATER_PER_CUP_FLOUR = FLOUR_GRAMS_PER_CUP * WATER_TO_FLOUR
+                            / WATER_GRAMS_PER_CUP;
+const SALT_TSP_PER_CUP_FLOUR = FLOUR_GRAMS_PER_CUP * SALT_TO_FLOUR
+                               / SALT_GRAMS_PER_TSP ;
+
+flour.onkeyup = function() {
+  water.value = (flour.value * WATER_PER_CUP_FLOUR).toFixed(2);
+  yeast.value = (flour.value * YEAST_TSP_PER_CUP_FLOUR).toFixed(2);
+  salt.value = (flour.value * SALT_TSP_PER_CUP_FLOUR).toFixed(2);
+};
+
+water.onkeyup = function() {
+  flour.value = (water.value / WATER_PER_CUP_FLOUR).toFixed(2);
+  yeast.value = (flour.value * YEAST_TSP_PER_CUP_FLOUR).toFixed(2);
+  salt.value = (flour.value * SALT_TSP_PER_CUP_FLOUR).toFixed(2);
+};
+
+yeast.onkeyup = function() {
+  flour.value = (yeast.value / YEAST_TSP_PER_CUP_FLOUR).toFixed(2);
+  water.value = (flour.value * WATER_PER_CUP_FLOUR).toFixed(2);
+  salt.value = (flour.value * SALT_TSP_PER_CUP_FLOUR).toFixed(2);
+};
+
+salt.onkeyup = function() {
+  flour.value = (salt.value / SALT_TSP_PER_CUP_FLOUR).toFixed(2);
+  water.value = (flour.value * WATER_PER_CUP_FLOUR).toFixed(2);
+  yeast.value = (flour.value * YEAST_TSP_PER_CUP_FLOUR).toFixed(2);
+};
+
+})();
+</script>
