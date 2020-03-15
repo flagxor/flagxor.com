@@ -53,7 +53,7 @@ function UpdateFlour() {
 
 flour.value = 4;
 UpdateFlour();
-flour.onkeyup = UpdateFlour();
+flour.onkeyup = UpdateFlour;
 
 water.onkeyup = function() {
   flour.value = (water.value / WATER_PER_CUP_FLOUR).toFixed(2);
