@@ -45,11 +45,15 @@ const WATER_PER_CUP_FLOUR = FLOUR_GRAMS_PER_CUP * WATER_TO_FLOUR
 const SALT_TSP_PER_CUP_FLOUR = FLOUR_GRAMS_PER_CUP * SALT_TO_FLOUR
                                / SALT_GRAMS_PER_TSP ;
 
-flour.onkeyup = function() {
+function UpdateFlour() {
   water.value = (flour.value * WATER_PER_CUP_FLOUR).toFixed(2);
   yeast.value = (flour.value * YEAST_TSP_PER_CUP_FLOUR).toFixed(2);
   salt.value = (flour.value * SALT_TSP_PER_CUP_FLOUR).toFixed(2);
-};
+}
+
+flour.value = 4;
+UpdateFlour();
+flour.onkeyup = UpdateFlour();
 
 water.onkeyup = function() {
   flour.value = (water.value / WATER_PER_CUP_FLOUR).toFixed(2);
