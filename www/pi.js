@@ -53,10 +53,9 @@ function Init() {
 
 window.addEventListener('keydown', function(e) {
   if (secretEntry !== SECRET) {
-    if (SECRET.startsWith(secretEntry + e.key)) {
-      secretEntry += e.key;
-    } else {
-      secretEntry = '';
+    secretEntry += e.key;
+    while (secretEntry.length > SECRET.length) {
+      secretEntry = secretEntry.substr(1);
     }
     if (secretEntry === SECRET) {
       Init();
