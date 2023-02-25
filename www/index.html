@@ -89,4 +89,12 @@ suggesting not much has been lost.
 
 </div>
 
+<script type="text/forth">
+web
+JSWORD: pageload { a n -- }
+  window.location.href = GetString(a, n);
+~
+forth
+: slides   s" https://flagxor.github.io/svfig-talks/svfig-2023-02-25/" pageload ;
+</script>
 <script src="forth.js"></script>
