@@ -12,6 +12,15 @@ function Init() {
   var wrapper = document.getElementById('wrapper');
   wrapper.parentElement.removeChild(wrapper);
 
+  // Add extra border.
+  var nwrapper = document.createElement('div');
+  nwrapper.style.padding = '3px';
+  nwrapper.height = '100%';
+  document.body.appendChild(nwrapper);
+  var ueforth_div = document.createElement('div');
+  ueforth_div.id = 'ueforth';
+  nwrapper.appendChild(ueforth_div);
+
   var script = document.createElement('script');
   script.src = 'https://eforth.appspot.com/ueforth.js';
   document.body.appendChild(script);
