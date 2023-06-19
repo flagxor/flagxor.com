@@ -21,17 +21,39 @@ variable request
 
 variable goal
 variable goal#
-: end< ( n -- f ) inbuf# @ < ;
 : in@<> ( n ch -- f ) >r inbuf + c@ r> <> ;
-: first0 0 begin dup [char] : in@<> over end< and while 1+ repeat 1+ ;
-: skipto0 begin dup 0 in@<> over end< and while 1+ repeat ;
-: next0 dup inbuf + swap skipto0 dup 1+ -rot inbuf + over - ;
-: param
+: end< ( n -- f ) inbuf# @ < ;
+: end,< ( n -- f ) dup [char] , in@<> swap end< and ;
+: end:< ( n -- f ) dup [char] : in@<> swap end< and ;
+: end0< ( n -- f ) dup 0 in@<> swap end< and ;
+: first0   0 begin dup end:< while 1+ repeat 1+ ;
+: skipto0   begin dup end0< while 1+ repeat ;
+: next0 ( -- a n ) dup inbuf + swap skipto0 dup 1+ -rot inbuf + over - ;
+: param ( a n -- a n )
   goal# ! goal ! first0
-  begin dup end< while
+  begin dup end,< while
     next0 goal @ goal# @ str= if next0 rot drop exit then
     next0 2drop
   repeat drop s" "
+;
+
+: payload ( -- a n )
+  first0
+  begin dup end,< while
+    next0 2drop
+    next0 2drop
+  repeat
+  1+ inbuf over +
+  swap inbuf# @ swap -
+;
+
+: dump-headers
+  first0
+  begin dup end,< while
+    next0 type ." : " next0 type cr
+  repeat drop
+  ." POST DATA LENGTH: " payload . drop cr
+  ." POST DATA:" cr payload type cr
 ;
 
 create crlf_ 13 c, 10 c, does> 2 ;
@@ -62,6 +84,8 @@ SIGCHLD SIG_IGN signal drop
 set-current ( public )
 
 : param param ;
+: payload payload ;
+: dump-headers dump-headers ;
 : rtype rtype ;
 : rtypeln rtypeln ;
 : rcr rcr ;

@@ -52,6 +52,9 @@ var board_state;
 
 function Draw() {
   var canvas = document.getElementById('board');
+  if (!canvas) {
+    return;
+  }
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, 256, 256);
