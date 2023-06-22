@@ -24,7 +24,7 @@ state-file data-size ftruncate throw
 : data-block ( n -- a ) block-size * data + ;
 
 : respond-read
-  0 0 s" HTTP_RECORD_NUMBER" param >number 2drop drop { num }
+  0 0 s" QUERY_STRING" param >number 2drop drop { num }
   num 0< num block-count > or if notfound exit then
   num public-block-count < if
     s" HTTP_PASSWD" param passwd passwd# str= 0= if notfound exit then
@@ -34,7 +34,7 @@ state-file data-size ftruncate throw
 ;
 
 : respond-write
-  0 0 s" HTTP_RECORD_NUMBER" param >number 2drop drop { num }
+  0 0 s" QUERY_STRING" param >number 2drop drop { num }
   num 0< num block-count > or if notfound exit then
   s" HTTP_PASSWD" param passwd passwd# str= 0= if notfound exit then
   payload nip block-size <> if notfound exit then

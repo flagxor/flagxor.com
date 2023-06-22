@@ -16,9 +16,8 @@ web definitions
 JSWORD: raw-server-write { a n done -- }
   i32[done>>2] = -1;
   var request = new XMLHttpRequest();
-  request.open('POST', '/dynamic/write');
+  request.open('POST', '/dynamic/write?' + n);
   request.setRequestHeader('PASSWD', localStorage.getItem('passwd'));
-  request.setRequestHeader('RECORD_NUMBER', n);
   request.onload = function() {
     if (request.status == 200) {
       i32[done>>2] = 0;
@@ -36,9 +35,8 @@ JSWORD: raw-server-read { a n done -- }
   i32[done>>2] = -1;
   var request = new XMLHttpRequest();
   request.responseType = 'arraybuffer';
-  request.open('POST', '/dynamic/read');
+  request.open('POST', '/dynamic/read?' + n);
   request.setRequestHeader('PASSWD', localStorage.getItem('passwd'));
-  request.setRequestHeader('RECORD_NUMBER', n);
   request.onload = function() {
     if (request.status == 200 &&
         request.response.byteLength == 1024 * 16) {
@@ -63,66 +61,87 @@ also internals
 : server-read ( a n -- )
    0 >r rp@ raw-server-read begin yield r@ 0< 0= until r@ throw rdrop ;
 
+variable available
+variable dirty
+variable resident
+
 0 value last-cache
 1024 16 * constant chunk-size
 4 constant cache-size
-create cache-index cache-size cells allot
-create cache-dirty cache-size cells allot
-create cache-data cache-size chunk-size * allot
 
-: index@ ( slot -- n ) cells cache-index + @ ;
-: index! ( n slot -- ) cells cache-index + ! ;
-: dirty@ ( slot -- n ) cells cache-dirty + @ ;
-: dirty! ( n slot -- ) cells cache-dirty + ! ;
-: chunk ( n -- a ) chunk-size * cache-data + ;
+: >index ( a -- a ) cell + ;
+: >data ( a -- a ) 2 cells + ;
+
+: add-first { a dst -- } dst @ a ! a dst ! ;
+: take-first { src -- a } src @ src @ @ src ! ;
+: take-last { src -- a }
+  src begin dup @ @ while @ repeat dup @ swap 0 swap ! ;
+
+: add-cache   here 0 , 0 , chunk-size allot available add-first ;
+: init-cache   cache-size 0 do add-cache loop ; init-cache
+
+: pluck { n src -- a }
+  src begin dup @ while
+    dup @ >index @ n = if
+      dup @ >r dup @ @ swap ! r> exit
+    then
+    @
+  repeat @
+;
+
+: front-it { n src -- a } n src pluck dup if dup src add-first then ;
+
+: read-it ( a -- ) dup >data swap >index @ server-read ;
+: write-it ( a -- ) dup >data swap >index @ server-write ;
+
+: count-it { src -- n }
+  0 { tally }
+  src begin dup @ while 1 +to tally @ repeat drop tally ;
 
 also forth definitions
 
 : empty-buffers
-  cache-size 0 do
-    0 i dirty!
-    -1 i index!
-  loop
+  begin resident @ while resident take-first available add-first repeat
+  begin dirty @ while dirty take-first available add-first repeat
 ;
-empty-buffers
 
 : save-buffers
-  cache-size 0 do
-    i dirty@ i index@ 0< 0= and if
-      i chunk i index@ server-write
-      0 i dirty!
-      -1 i index!
-    then
-  loop
+  begin dirty @ while
+    dirty take-first
+    dup write-it
+    resident add-first
+  repeat
 ;
 
 : flush   save-buffers empty-buffers ;
 
+: free-block ( -- a )
+  available @ if available take-first resident add-first resident @ exit then
+  resident @ if resident take-last exit then
+  dirty @ 0= throw
+  dirty take-last
+  dup write-it
+  available add-first
+;
+
 : block ( n -- a )
-  16 /mod { part n }
-  n to last-cache
-  cache-size 0 do
-    i index@ n = if
-      i chunk 1024 part * + unloop exit
-    then
-  loop
-  cache-size 0 do
-    i dirty@ 0= i index@ 0< or if
-      i chunk n server-read
-      n i index!
-      i chunk 1024 part * +
-      unloop exit
-    then
-  loop
-  0 chunk 0 index@ server-write
-  0 0 dirty!
-  0 chunk n server-read
-  n 0 index!
-  0 chunk 1024 part * +
+  16 /mod { part n } n to last-cache
+  n dirty front-it if dirty @ >data part 1024 * + exit then
+  n resident front-it if resident @ >data part 1024 * + exit then
+  free-block
+  n over >index !
+  dup read-it
+  >data part 1024 * +
 ;
 
 : buffer ( n -- a ) block ;
-: update   -1 last-cache dirty! ;
+
+: update
+  resident @ 0= if exit then
+  resident @ >index @ last-cache = if
+    resident take-first dirty add-first
+  then
+;
 
 only forth definitions
 
